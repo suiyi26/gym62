@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0F3460">
+  <meta name="description" content="太原科技大学2026级新生通关宝典：校区宿舍真相、报到流程、开学清单、军训生存、转专业科普、保研科普、社团大全、防骗指南，全部免费开放阅读，不用加好友、没有弹窗。">
+  <title>太原科技大学 2026 新生通关宝典</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" href="favicon.ico">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="太科宝典">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══════════ 启动加载动画（校园极简风，加载完自动淡出） ═══════════ -->
+  <div id="loader" role="status" aria-label="加载中">
+    <div class="ld-book">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H5.5A1.5 1.5 0 0 1 4 15.5z"/>
+        <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H14a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h4.5a1.5 1.5 0 0 0 1.5-1.5z"/>
+      </svg>
+    </div>
+    <p>太科新生宝典 · 加载中</p>
+  </div>
+
+  <!-- ═══════════ 全站斜向水印层（免费区淡，付费区自动加深） ═══════════ -->
+  <div id="watermark" aria-hidden="true"></div>
+
+  <!-- ═══════════ ① 永久置顶：全站智能搜索导航栏 ═══════════ -->
+  <header id="topbar">
+    <div class="search-row">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>
+        <input id="q" type="search" enterkeyhint="search" autocomplete="off"
+               placeholder="搜索校区、专业、转专业、绩点、军训、社团等关键词">
+        <button id="btnClear" class="q-clear hidden" aria-label="清空">&times;</button>
+      </div>
+      <button id="btnFav" class="toc-btn" aria-label="我的收藏">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>
+        <span>收藏</span>
+      </button>
+      <button id="btnToc" class="toc-btn" aria-label="目录索引">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+        <span>目录</span>
+      </button>
+      <button id="btnTheme" class="theme-btn" aria-label="切换深浅色模式"></button>
+    </div>
+    <!-- 入学准备进度条（细线版，置顶栏下方常驻，不遮挡阅读） -->
+    <div class="prog-mini" id="progMini" aria-hidden="true">
+      <div class="pm-bar"><i id="pmBar"></i></div>
+      <span class="pm-txt" id="pmTxt"></span>
+    </div>
+    <!-- 搜索结果下拉（站内全文检索 + 模糊联想，点击直达） -->
+    <div id="searchDrop" class="hidden" role="listbox"></div>
+  </header>
+
+  <!-- ═══════════ 服务状态条（启动校验 status.json 后显示；正常服务时不占位） ═══════════ -->
+  <div id="svcBar" class="hidden" role="status" aria-live="polite"></div>
+
+  <main id="main">
+
+    <!-- ═══════════ ② 深蓝渐变首屏横幅 ═══════════ -->
+    <section class="hero" id="top">
+      <div class="hero-glow g1" aria-hidden="true"></div>
+      <div class="hero-glow g2" aria-hidden="true"></div>
+      <p class="hero-badge" id="heroBadge"></p>
+      <h1 id="heroTitle"></h1>
+      <p class="hero-slogan" id="heroSlogan"></p>
+      <p class="hero-trust" id="heroTrust"></p>
+      <!-- 横向 4 个半透明数据卡片（数字滚动动画） -->
+      <div class="stats" id="stats"></div>
+      <!-- 首屏功能双按钮（仅引导浏览，无任何领取弹窗） -->
+      <div class="hero-actions" id="heroActions"></div>
+      <p class="hero-note" id="heroNote"></p>
+    </section>
+
+    <!-- ═══════════ ③ 入学准备可视化进度条 ═══════════ -->
+    <section class="sec" id="progress">
+      <div class="sec-head">
+        <h2 id="pgTitle"></h2>
+        <p class="sec-sub" id="pgSub"></p>
+      </div>
+      <div class="prog-card">
+        <div class="prog-steps" id="progSteps"></div>
+        <p class="prog-tip" id="progTip"></p>
+      </div>
+    </section>
+
+    <!-- ═══════════ ④ 12 大免费攻略板块（全部无门槛直接展开） ═══════════ -->
+    <section class="sec" id="chapters">
+      <div class="sec-head">
+        <h2 id="chTitle"></h2>
+        <p class="sec-sub" id="chSub"></p>
+      </div>
+      <div id="chList"></div>
+    </section>
+
+    <!-- ═══════════ ⑤ 校园避坑红黑榜（免费开放） ═══════════ -->
+    <section class="sec" id="ranks">
+      <div class="sec-head">
+        <h2 id="rkTitle"></h2>
+        <p class="sec-sub" id="rkSub"></p>
+      </div>
+      <div class="rk-tabs" id="rkTabs"></div>
+      <div id="rkList"></div>
+    </section>
+
+    <!-- ═══════════ ⑥ 免费实用工具区（本地存储，无需登录） ═══════════ -->
+    <section class="sec" id="tools">
+      <div class="sec-head">
+        <h2 id="tlTitle"></h2>
+        <p class="sec-sub" id="tlSub"></p>
+      </div>
+      <div class="tl-tabs" id="tlTabs"></div>
+
+      <!-- 工具 1：开学物资勾选清单 -->
+      <div class="tool-panel" id="tp-check">
+        <div class="tp-head">
+          <span id="ckSummary"></span>
+          <button class="tp-mini" data-act="ck-reset">重置</button>
+        </div>
+        <div id="ckBody"></div>
+        <button class="tp-copy" data-act="ck-copy">复制未准备清单</button>
+      </div>
+
+      <!-- 工具 2：简易绩点测算 -->
+      <div class="tool-panel hidden" id="tp-gpa">
+        <div class="gpa-form">
+          <div class="gpa-row">
+            <label>课程名称</label>
+            <label>学分</label>
+            <label>成绩</label>
+            <span></span>
+          </div>
+          <div id="gpaRows"></div>
+          <button class="tp-mini" data-act="gpa-add">+ 添加一门课</button>
+        </div>
+        <div class="gpa-result" id="gpaResult"></div>
+        <p class="tp-note">绩点按太科大常见换算：绩点 = 成绩/10 − 5（成绩 &lt; 60 记 0）；具体以《学生手册》为准，此工具仅供估算。</p>
+      </div>
+
+      <!-- 工具 3：转专业自测问卷 -->
+      <div class="tool-panel hidden" id="tp-quiz">
+        <div id="quizBody"></div>
+        <button class="tp-copy" data-act="quiz-submit">查看自测结果</button>
+        <div class="quiz-result" id="quizResult"></div>
+      </div>
+
+      <!-- 服务暂停时的工具锁定遮罩（由 svcLockTools 控制显隐） -->
+      <div id="toolsLock" class="tools-lock hidden">
+        <b>本服务已暂停</b>
+        <span>工具功能暂停使用，全部攻略正文仍可正常阅读。</span>
+      </div>
+    </section>
+
+    <!-- ═══════════ ⑦ 免费基础资料查阅区（三校区真实平面图） ═══════════ -->
+    <section class="sec" id="freeRes">
+      <div class="sec-head">
+        <h2 id="frTitle"></h2>
+        <p class="sec-sub" id="frSub"></p>
+      </div>
+      <div class="fr-intro" id="frIntro"></div>
+      <div id="frList"></div>
+      <!-- 三大校区交互式导览地图（鸟瞰全局 · 拖拽 · 缩放 · 点击看贴士） -->
+      <div class="map-card">
+        <div class="map-head">
+          <span>三校区交互式导览地图</span>
+          <span class="map-tag">可拖拽 · 可缩放 · 点击看贴士</span>
+        </div>
+        <div class="imap-wrap">
+          <iframe class="imap" id="imap" src="campus-map.html" title="太原科技大学三校区交互导览地图"
+                  loading="lazy" scrolling="no"></iframe>
+        </div>
+        <a class="imap-open" href="campus-map.html" target="_blank" rel="noopener">全屏打开交互地图 ↗</a>
+      </div>
+      <!-- 三校区手绘平面示意图（Tab 切换 · 居中展示） -->
+      <div class="map-card">
+        <div class="map-head"><span>三校区平面示意图</span><span class="map-tag">手绘版 · 上北下南 · 原创示意</span></div>
+        <div class="smap-tabs" id="smapTabs">
+          <button data-m="main">主校区</button>
+          <button data-m="west">西校区</button>
+          <button data-m="nan" class="on">南校区（晋源）</button>
+        </div>
+        <div class="smap-body"><img id="smapImg" src="nan-campus-map.svg"
+             alt="太原科技大学南校区（晋源校区）手绘平面示意图" loading="lazy"/></div>
+        <p class="map-note">示意图仅作导航参考，出行以校园实景为准。</p>
+        <a class="imap-open" id="smapLink" href="nan-campus-map.svg" target="_blank" rel="noopener">查看高清原图 ↗</a>
+      </div>
+      <details class="map-static">
+        <summary>查看线框简版平面图</summary>
+        <div class="map-card">
+          <div class="map-head"><span id="frMapTitle"></span><span class="map-tag">线框简版</span></div>
+          <div class="map-tabs" id="mapTabs"></div>
+          <div class="map-body" id="campusMap"><!-- SVG 平面图由 app.js 注入 --></div>
+          <div class="map-legend" id="mapLegend"></div>
+          <p class="map-note" id="mapNote"></p>
+        </div>
+      </details>
+      <div class="fr-contact" id="frContact"></div>
+    </section>
+
+    <!-- ═══════════ ⑧ 可一键保存清单（复制 / 截图） ═══════════ -->
+    <section class="sec" id="saveCards">
+      <div class="sec-head">
+        <h2 id="svTitle"></h2>
+        <p class="sec-sub" id="svSub"></p>
+      </div>
+      <div id="svList"></div>
+    </section>
+
+    <!-- ═══════════ ⑨ 轻量化静态口碑展示区 ═══════════ -->
+    <section class="sec voices" id="voices">
+      <div class="sec-head">
+        <h2 id="vcTitle"></h2>
+        <p class="sec-sub" id="vcSub"></p>
+      </div>
+      <div class="vc-list" id="vcList"></div>
+    </section>
+
+    <!-- ═══════════ ⑩ 页面最底部：进阶深度参考资料包（后置 · 素雅 · 付费预览区） ═══════════ -->
+    <section class="sec premium locked" id="premium">
+      <div class="sec-head">
+        <h2 id="pmTitle"></h2>
+        <p class="sec-sub" id="pmSub"></p>
+      </div>
+      <!-- 付费预览区：JS 动态渲染 + 禁选中 + 禁右键 -->
+      <div class="pm-intro" id="pmIntro"></div>
+      <div id="pmList"></div>
+
+      <p class="pm-foot" id="pmFoot"></p>
+    </section>
+
+    <!-- ═══════════ ⑪ 学业一对一规划咨询（轻量化展示） ═══════════ -->
+    <section class="sec" id="consult">
+      <div class="sec-head">
+        <h2 id="csTitle"></h2>
+        <p class="sec-sub" id="csSub"></p>
+      </div>
+      <div class="cs-intro" id="csIntro"></div>
+      <div id="csList"></div>
+      <button class="cs-cta" id="csCta"></button>
+    </section>
+
+    <!-- ═══════════ ⑫ 页脚：免责声明 + 版权 + 访问计数 ═══════════ -->
+    <footer id="foot">
+      <p class="ft-logo">太科新生宝典</p>
+      <p class="ft-line">学长整理 · 真诚分享 · 基础攻略永久免费</p>
+
+      <div class="ft-disc">
+        <p><b>免责声明：</b>所有整理资料、备考方案仅供学习参考；转专业、保研、选课等一切规则，请最终以太原科技大学教务处官方最新通知为准。本站内容<b>不属于太原科技大学官方文件</b>，学校官方政策文件版权归校方所有。</p>
+        <p><b>版权声明：</b>本攻略为原创整理汇编，禁止未经许可搬运、二次倒卖商用；免费攻略区文字欢迎自用与分享出处。</p>
+        <p id="ftCopy"></p>
+        <p>页面内容可长按复制 · 数据离线缓存 · 更新时间：<span id="ftDate"></span></p>
+      </div>
+
+      <p class="ft-count">本站累计访问 <b id="visitCount">—</b> 人次<span class="ft-count-note">（匿名计数，仅统计次数，不采集任何个人信息）</span></p>
+
+      <button class="ft-install hidden" id="btnInstall">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>
+        添加到手机桌面
+      </button>
+    </footer>
+  </main>
+
+  <!-- ═══════════ 侧边轻量化悬浮答疑面板（固定右侧，可一键收起） ═══════════ -->
+  <div id="qaDock" class="qa-dock">
+    <button id="qaToggle" class="qa-fab" aria-label="高频答疑">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.7 2.2c-.8.4-1.3 1-1.3 1.9"/><path d="M12 17h.01"/></svg>
+      <span>答疑</span>
+    </button>
+    <div id="qaPanel" class="qa-panel hidden">
+      <div class="qa-top">
+        <span>新生高频秒查</span>
+        <button id="qaClose" aria-label="收起">&times;</button>
+      </div>
+      <div class="qa-list" id="qaList"></div>
+      <p class="qa-endorse" id="qaEndorse"></p>
+    </div>
+  </div>
+
+  <!-- 收藏夹抽屉（本地存储） -->
+  <div id="favMask" class="hidden"></div>
+  <nav id="favSheet" class="hidden" aria-label="我的收藏">
+    <div class="toc-head"><span>我的收藏</span><button id="favClose" aria-label="关闭">&times;</button></div>
+    <div id="favBody"></div>
+  </nav>
+
+  <!-- 回到顶部（唯一悬浮按钮，无任何广告按钮） -->
+  <button id="btnTop" class="hidden" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg>
+  </button>
+
+  <!-- 目录索引抽屉 -->
+  <div id="tocMask" class="hidden"></div>
+  <nav id="tocSheet" class="hidden" aria-label="目录索引">
+    <div class="toc-head"><span>目录索引</span><button id="tocClose" aria-label="关闭">&times;</button></div>
+    <div id="tocBody"></div>
+  </nav>
+
+  <!-- 离线提示条（断网时显示） -->
+  <div id="offlineTip" role="status">📡 已离线缓存，可继续查看全部资料</div>
+
+  <!-- 开发者工具检测提示（打开 F12 时提示，不阻断继续使用） -->
+  <div id="devWarn" class="hidden">
+    <b>温馨提示</b>
+    <p>本站内容为学长原创整理汇编，受版权保护。请勿整页搬运、二次倒卖或商用分发。免费攻略区文字可自由复制自用，感谢尊重原创。</p>
+    <button id="devWarnOk">知道了</button>
+  </div>
+
+  <!-- 轻提示 -->
+  <div id="toast" class="hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
